@@ -29,4 +29,12 @@ class ObjectDetectorHelper(context: Context) {
         imageProxy.close()
         return results
     }
+
+    fun getObjectsSummary(detections: List<Detection>): String {
+        if (detections.isEmpty()) return "Объекты не найдены"
+        val grouped = detections.groupBy { it.categories[0].label }
+        return grouped.map { (label, list) ->
+            "${label.replaceFirstChar { it.uppercase() }}: ${list.size}"
+        }.joinToString(", ")
+    }
 }
